@@ -5,7 +5,12 @@ from decouple import config
 import urllib.request
 import json
 from time import sleep
+import time
 import threading
+
+start_time = time.time()
+
+
 
 user_name = config('user_name')
 password = config('password')
@@ -26,19 +31,6 @@ def token():
     # print(response)
     token = response['access_token']
     return token
-
-
-def alertme():
-    url = "https://script.google.com/macros/s/AKfycbwkDCT5QIorhA7-H3las9z4mWBBNeP5J741bDBcQ_R4fAnKX8TlGZhnBDQljTbGHCJZ/exec?message=All products and Inventory has been updated Successfully&email=stephengbenga300@gmail.com&subject=Malfini Api BaseShirt"
-
-    payload = {}
-    headers = {
-    }
-
-    response = requests.request("GET", url, headers=headers, data=payload)
-
-    print(response.json())
-
 
 
 tokenn = token()
@@ -216,7 +208,7 @@ def startupdating(bulkproductlink):
         quantity = getavailabilities(variantsku)
         setinventoryquantity(inventoryid, locationid, quantity, variantsku)
     print("========== All Proces Completed Sucessfully")
-    alertme()
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 
 class update(Resource):
