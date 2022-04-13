@@ -128,7 +128,7 @@ def malfiniprice(sku):
             prices['limit'] = 1
         if prices['productSizeCode'].strip() == sku.strip() and prices['limit'] == 1:
             product_price = prices['price']
-            # print(f"-{sku}-{product_price}")
+            print(f"-{sku}-{product_price}")
             return product_price
         elif prices['productSizeCode'].strip() == sku.strip() and prices['limit'] == "1":
             product_price = prices['price']
