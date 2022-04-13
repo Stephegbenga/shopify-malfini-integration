@@ -213,6 +213,7 @@ def startupdating(bulkproductlink):
 
 class update(Resource):
     def get(self):
+        print("===== Starting ======  ")
         threading.Thread(target=getbulkproductlink).start()
         return "Working on it"
 
