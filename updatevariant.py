@@ -63,7 +63,7 @@ def setinventoryquantity(inventory_item_id, location_id, quantity, variantsku):
             'Content-Type': 'application/json'
         }
         response = requests.request("POST", url, headers=headers, data=payload).json()
-        # print(f"variantsku: {variantsku} Inventoryid: {inventory_item_id} Locationid:{location_id} Quantity: {quantity} {response}\n\n")
+        print(f"variantsku: {variantsku} Inventoryid: {inventory_item_id} Locationid:{location_id} Quantity: {quantity} {response}\n\n")
         return response
     except:
         sleep(10)
@@ -85,6 +85,7 @@ def setinventoryquantity(inventory_item_id, location_id, quantity, variantsku):
 
 
 def getinventorydata(inventory_item_id):
+    sleep(0.2)
     try:
         url = f"https://richtiger-kevin.myshopify.com/admin/api/2022-01/inventory_levels.json?inventory_item_ids={inventory_item_id}"
 
@@ -132,7 +133,7 @@ def malfiniprice(sku):
             return product_price
         elif prices['productSizeCode'].strip() == sku.strip() and prices['limit'] == "1":
             product_price = prices['price']
-            # print(f"-{sku}-{product_price}")
+            print(f"-{sku}-{product_price}")
             return product_price
 
 
@@ -140,6 +141,7 @@ def malfiniprice(sku):
 
 # Update Varint Price:
 def updatevariantprice(price, variantid):
+    sleep(0.2)
     url = f"https://richtiger-kevin.myshopify.com/admin/api/2021-10/variants/{variantid}.json"
 
     payload = json.dumps({
