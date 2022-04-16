@@ -63,7 +63,7 @@ def setinventoryquantity(inventory_item_id, location_id, quantity, variantsku):
             'Content-Type': 'application/json'
         }
         response = requests.request("POST", url, headers=headers, data=payload).json()
-        print(f"variantsku: {variantsku} Inventoryid: {inventory_item_id} Locationid:{location_id} Quantity: {quantity} {response}\n\n")
+        # print(f"variantsku: {variantsku} Inventoryid: {inventory_item_id} Locationid:{location_id} Quantity: {quantity} {response}\n\n")
         return response
     except:
         sleep(10)
