@@ -28,6 +28,31 @@ def accesstoken():
     response = requests.request("POST", url, headers=headers, data=payload)
     return response
 
+
+def checkifaddressexist(load):
+    url = "https://api.malfini.com/api/v4/address"
+    payload = {}
+    headers = {
+        'Authorization': f'Bearer {token}'
+    }
+    response = requests.request("GET", url, headers=headers, data=payload).json()
+    exists = {"name": load['name'],"street":load['street'],"zipCode":load['zipCode'],"countryCode":load['countryCode'],"phone":load['phone'],"email":load['email']} in response
+    return exists
+
+def gettheaddressid(load):
+    url = "https://api.malfini.com/api/v4/address"
+    payload = {}
+    headers = {
+        'Authorization': f'Bearer {token}'
+    }
+    responses = requests.request("GET", url, headers=headers, data=payload).json()
+    for response in responses:
+        if response['name'] == load['name'] and response['street'] == load['street'] and response['countryCode'] == load['countryCode'] and response['phone'] == load['phone'] and response['email'] == load['email'] and response['zipCode'] == load['zipCode']:
+            return response['id']
+
+
+
+
 # This creates an address of that user on Malfini
 def createaddress(name, street, countrycode, zipcode, city, phoneno, email):
     datatoken = accesstoken().json()
@@ -36,7 +61,7 @@ def createaddress(name, street, countrycode, zipcode, city, phoneno, email):
     url = "https://api.malfini.com/api/v4/address"
     phonenumberprefix = phonenumbers.parse("100993393939", countrycode).country_code
     phonenumber = f'+{phonenumberprefix}-{phoneno}'
-    payload = json.dumps({
+    load = {
         "name": name,
         "recipient": name,
         "street": street, #"test_street"
@@ -47,7 +72,12 @@ def createaddress(name, street, countrycode, zipcode, city, phoneno, email):
         "email": email, #"testing01@xample.com",
         "invoiceDeliveryId": 2,
         "isValid": True
-    })
+    }
+    checkaddress = checkifaddressexist(load)
+    if checkaddress == True:
+        address_id = gettheaddressid(load)
+        return address_id
+    payload = json.dumps(load)
     headers = {
         'Authorization': f'Bearer {token}',
         'Content-Type': 'application/json'
